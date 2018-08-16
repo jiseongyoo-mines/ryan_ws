@@ -1576,9 +1576,8 @@
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose frame=''>0.446103 -0.40608 0 0 -0 0</pose>
-      <plugin name="ryan_arms_control" filename="libryan_arms_plugin.so">
-        <position> -1.5707 </position>
-      </plugin>
+      <plugin name="ryan_left_arms_control" filename="libryan_arms_plugin_l.so"/>
+      <plugin name="ryan_right_arms_control" filename="libryan_arms_plugin_r.so"/>
     </model>
     <state world_name='default'>
       <sim_time>2 100000000</sim_time>

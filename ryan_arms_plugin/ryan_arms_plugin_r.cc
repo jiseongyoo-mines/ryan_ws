@@ -12,13 +12,16 @@
 #include "ros/subscribe_options.h"
 #include "std_msgs/Float32.h"
 
+
 namespace gazebo
 {
   class RyanArmsPlugin : public ModelPlugin
   {
     private: physics::ModelPtr model;
-    private: physics::JointPtr joint;
-    private: common::PID pid;
+
+    // Ryam right arms
+    private: physics::JointPtr joint2, joint4, joint6, joint8;
+    private: common::PID pid2, pid4, pid6, pid8;
 
     private: transport::NodePtr node;
     private: transport::SubscriberPtr sub;
@@ -32,35 +35,37 @@ namespace gazebo
 
     public: virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     {
-      std::cerr << "\nThe RyanArms plugin is attach to model[" <<
+      std::cerr << "\nThe RyanArms plugin for right arms is attach to model[" <<
         _model->GetName() <<"]\n";
 
       // Safety check
       std::cerr << "The number of joints: " << _model->GetJointCount() << "\n";
       if (_model->GetJointCount() == 0)
       {
-        std::cerr << "Invalid joint count, Velodyne plugin not loaded\n";
+        std::cerr << "Invalid joint count, RyanArms plugin not loaded\n";
         return;
       }
 
       this->model = _model;
-      this->joint = _model->GetJoints()[1];   // left shoulder joint x axis
-      this->pid = common::PID(8, 0, 3);   // Change Kp, Ki, Kd
+
+      this->joint2 = _model->GetJoints()[2];   // right shoulder joint x axis
+      this->joint4 = _model->GetJoints()[4];   // right shoulder joint y axis
+      this->joint6 = _model->GetJoints()[6];   // right elbow joint X axis
+      this->joint8 = _model->GetJoints()[8];   // right elbow joint z axis
+      this->pid2 = common::PID(50, 0, 3);      // Change Kp, Ki, Kd
+      this->pid4 = common::PID(20, 10, 3);     // Change Kp, Ki, Kd
+      this->pid6 = common::PID(280, 100, 3);   // Change Kp, Ki, Kd
+      this->pid8 = common::PID(8, 0, 3);       // Change Kp, Ki, Kd
 
       // Apply the P-controller to the joint.
       this->model->GetJointController()->SetPositionPID(
-          this->joint->GetScopedName(), this->pid);
-
-      // Default to zero position
-      double position = 0;
-
-      // Check that the position element exists, then read the value
-      if (_sdf->HasElement("position"))
-        position = _sdf->Get<double>("position");
-
-      // Set the joint's target position.
-      this->model->GetJointController()->SetPositionTarget(
-          this->joint->GetScopedName(), position);
+          this->joint2->GetScopedName(), this->pid2);
+      this->model->GetJointController()->SetPositionPID(
+          this->joint4->GetScopedName(), this->pid4);
+      this->model->GetJointController()->SetPositionPID(
+          this->joint6->GetScopedName(), this->pid6);
+      this->model->GetJointController()->SetPositionPID(
+          this->joint8->GetScopedName(), this->pid8);
 
 
       // Create the node
@@ -72,11 +77,7 @@ namespace gazebo
       #endif
 
       // Create a topic name
-      std::string topicName = "~/" + this->model->GetName() + "/pos_cmd";
-
-      // Subscribe to the topic, and register a callback
-      this->sub = this->node->Subscribe(topicName,
-         &RyanArmsPlugin::OnMsg, this);
+      std::string topicName = "~/" + this->model->GetName() + "/right_arms_pos_cmd";
 
       // Initialize ros, if it has not already bee initialized.
       if (!ros::isInitialized())
@@ -92,39 +93,39 @@ namespace gazebo
       // Create a named topic, and subscribe to it.
       ros::SubscribeOptions so =
         ros::SubscribeOptions::create<std_msgs::Float32>(
-            "/" + this->model->GetName() + "/pos_cmd", 1,
-           boost::bind(&RyanArmsPlugin::OnRosMsg, this, _1),
+            "/" + this->model->GetName() + "/right_pos_cmd", 1,
+           boost::bind(&RyanArmsPlugin::OnRosMsgRight, this, _1),
            ros::VoidPtr(), &this->rosQueue);
       this->rosSub = this->rosNode->subscribe(so);
+
       // Spin up the queue helper thread.
       this->rosQueueThread =
       std::thread(std::bind(&RyanArmsPlugin::QueueThread, this));
     }
 
     // Set the position of ryan arm
-    public: void SetPosition(const double &_pos)
+    public: void SetPosition(physics::JointPtr &_joint, const double _pos)
     {
       // Set the joint's target position.
       this->model->GetJointController()->SetPositionTarget(
-          this->joint->GetScopedName(), _pos);
+          _joint->GetScopedName(), _pos);
     }
 
     // Set the velocity of ryan arm
-    public: void SetVelocity(const double &_vel)
+    public: void SetVelocity(physics::JointPtr &_joint, const double &_vel)
     {
       // Set the joint's target velocity.
       this->model->GetJointController()->SetVelocityTarget(
-          this->joint->GetScopedName(), _vel);
+          _joint->GetScopedName(), _vel);
     }
 
-    private: void OnMsg(ConstVector3dPtr &_msg)
+    public: void OnRosMsgRight(const std_msgs::Float32ConstPtr &_msg)
     {
-      this->SetPosition(_msg->x());
-    }
-
-    public: void OnRosMsg(const std_msgs::Float32ConstPtr &_msg)
-    {
-      this->SetPosition(_msg->data);
+      std::cout << "Right arm commands\n";
+      // this->SetPosition(this->joint2, _msg->data);
+      // this->SetPosition(this->joint4, _msg->data);
+      // this->SetPosition(this->joint6, _msg->data);
+      // this->SetPosition(this->joint8, _msg->data);
     }
 
     private: void QueueThread()

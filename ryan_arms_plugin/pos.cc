@@ -8,6 +8,9 @@
 #include <gazebo/gazebo_client.hh>
 #endif
 
+#include "std_msgs/Float32.h"
+
+
 int main(int _argc, char **_argv)
 {
 #if GAZEBO_MAJOR_VERSION < 6
@@ -22,7 +25,7 @@ int main(int _argc, char **_argv)
 
   // Publish to the ryan_arms topic
   gazebo::transport::PublisherPtr pub =
-    node->Advertise<gazebo::msgs::Vector3d>("~/ryan_arms/pos_cmd");
+    node->Advertise<gazebo::msgs::Vector3d>("~/ryan_arms/left_pos_cmd");
 
   // Wait for a subscriber to connect to this publisher
   pub->WaitForConnection();
@@ -30,7 +33,7 @@ int main(int _argc, char **_argv)
   // Create a a vector3 message
   gazebo::msgs::Vector3d msg;
 
-  // Set the velocity in the x-component
+
 #if GAZEBO_MAJOR_VERSION < 6
   gazebo::msgs::Set(&msg, gazebo::math::Vector3(std::atof(_argv[1]), 0, 0));
 #else

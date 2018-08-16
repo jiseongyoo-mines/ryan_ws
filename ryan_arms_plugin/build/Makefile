@@ -111,17 +111,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ryan_arms_plugin
+# Target rules for targets named ryan_arms_plugin_r
 
 # Build rule for target.
-ryan_arms_plugin: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ryan_arms_plugin
-.PHONY : ryan_arms_plugin
+ryan_arms_plugin_r: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ryan_arms_plugin_r
+.PHONY : ryan_arms_plugin_r
 
 # fast build rule for target.
-ryan_arms_plugin/fast:
-	$(MAKE) -f CMakeFiles/ryan_arms_plugin.dir/build.make CMakeFiles/ryan_arms_plugin.dir/build
-.PHONY : ryan_arms_plugin/fast
+ryan_arms_plugin_r/fast:
+	$(MAKE) -f CMakeFiles/ryan_arms_plugin_r.dir/build.make CMakeFiles/ryan_arms_plugin_r.dir/build
+.PHONY : ryan_arms_plugin_r/fast
+
+#=============================================================================
+# Target rules for targets named ryan_arms_plugin_l
+
+# Build rule for target.
+ryan_arms_plugin_l: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ryan_arms_plugin_l
+.PHONY : ryan_arms_plugin_l
+
+# fast build rule for target.
+ryan_arms_plugin_l/fast:
+	$(MAKE) -f CMakeFiles/ryan_arms_plugin_l.dir/build.make CMakeFiles/ryan_arms_plugin_l.dir/build
+.PHONY : ryan_arms_plugin_l/fast
 
 #=============================================================================
 # Target rules for targets named std_msgs_generate_messages_lisp
@@ -358,32 +371,59 @@ pos.cc.s:
 	$(MAKE) -f CMakeFiles/pos.dir/build.make CMakeFiles/pos.dir/pos.cc.s
 .PHONY : pos.cc.s
 
-ryan_arms_plugin.o: ryan_arms_plugin.cc.o
+ryan_arms_plugin_l.o: ryan_arms_plugin_l.cc.o
 
-.PHONY : ryan_arms_plugin.o
+.PHONY : ryan_arms_plugin_l.o
 
 # target to build an object file
-ryan_arms_plugin.cc.o:
-	$(MAKE) -f CMakeFiles/ryan_arms_plugin.dir/build.make CMakeFiles/ryan_arms_plugin.dir/ryan_arms_plugin.cc.o
-.PHONY : ryan_arms_plugin.cc.o
+ryan_arms_plugin_l.cc.o:
+	$(MAKE) -f CMakeFiles/ryan_arms_plugin_l.dir/build.make CMakeFiles/ryan_arms_plugin_l.dir/ryan_arms_plugin_l.cc.o
+.PHONY : ryan_arms_plugin_l.cc.o
 
-ryan_arms_plugin.i: ryan_arms_plugin.cc.i
+ryan_arms_plugin_l.i: ryan_arms_plugin_l.cc.i
 
-.PHONY : ryan_arms_plugin.i
+.PHONY : ryan_arms_plugin_l.i
 
 # target to preprocess a source file
-ryan_arms_plugin.cc.i:
-	$(MAKE) -f CMakeFiles/ryan_arms_plugin.dir/build.make CMakeFiles/ryan_arms_plugin.dir/ryan_arms_plugin.cc.i
-.PHONY : ryan_arms_plugin.cc.i
+ryan_arms_plugin_l.cc.i:
+	$(MAKE) -f CMakeFiles/ryan_arms_plugin_l.dir/build.make CMakeFiles/ryan_arms_plugin_l.dir/ryan_arms_plugin_l.cc.i
+.PHONY : ryan_arms_plugin_l.cc.i
 
-ryan_arms_plugin.s: ryan_arms_plugin.cc.s
+ryan_arms_plugin_l.s: ryan_arms_plugin_l.cc.s
 
-.PHONY : ryan_arms_plugin.s
+.PHONY : ryan_arms_plugin_l.s
 
 # target to generate assembly for a file
-ryan_arms_plugin.cc.s:
-	$(MAKE) -f CMakeFiles/ryan_arms_plugin.dir/build.make CMakeFiles/ryan_arms_plugin.dir/ryan_arms_plugin.cc.s
-.PHONY : ryan_arms_plugin.cc.s
+ryan_arms_plugin_l.cc.s:
+	$(MAKE) -f CMakeFiles/ryan_arms_plugin_l.dir/build.make CMakeFiles/ryan_arms_plugin_l.dir/ryan_arms_plugin_l.cc.s
+.PHONY : ryan_arms_plugin_l.cc.s
+
+ryan_arms_plugin_r.o: ryan_arms_plugin_r.cc.o
+
+.PHONY : ryan_arms_plugin_r.o
+
+# target to build an object file
+ryan_arms_plugin_r.cc.o:
+	$(MAKE) -f CMakeFiles/ryan_arms_plugin_r.dir/build.make CMakeFiles/ryan_arms_plugin_r.dir/ryan_arms_plugin_r.cc.o
+.PHONY : ryan_arms_plugin_r.cc.o
+
+ryan_arms_plugin_r.i: ryan_arms_plugin_r.cc.i
+
+.PHONY : ryan_arms_plugin_r.i
+
+# target to preprocess a source file
+ryan_arms_plugin_r.cc.i:
+	$(MAKE) -f CMakeFiles/ryan_arms_plugin_r.dir/build.make CMakeFiles/ryan_arms_plugin_r.dir/ryan_arms_plugin_r.cc.i
+.PHONY : ryan_arms_plugin_r.cc.i
+
+ryan_arms_plugin_r.s: ryan_arms_plugin_r.cc.s
+
+.PHONY : ryan_arms_plugin_r.s
+
+# target to generate assembly for a file
+ryan_arms_plugin_r.cc.s:
+	$(MAKE) -f CMakeFiles/ryan_arms_plugin_r.dir/build.make CMakeFiles/ryan_arms_plugin_r.dir/ryan_arms_plugin_r.cc.s
+.PHONY : ryan_arms_plugin_r.cc.s
 
 # Help Target
 help:
@@ -391,7 +431,8 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... ryan_arms_plugin"
+	@echo "... ryan_arms_plugin_r"
+	@echo "... ryan_arms_plugin_l"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... std_msgs_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_nodejs"
@@ -413,9 +454,12 @@ help:
 	@echo "... pos.o"
 	@echo "... pos.i"
 	@echo "... pos.s"
-	@echo "... ryan_arms_plugin.o"
-	@echo "... ryan_arms_plugin.i"
-	@echo "... ryan_arms_plugin.s"
+	@echo "... ryan_arms_plugin_l.o"
+	@echo "... ryan_arms_plugin_l.i"
+	@echo "... ryan_arms_plugin_l.s"
+	@echo "... ryan_arms_plugin_r.o"
+	@echo "... ryan_arms_plugin_r.i"
+	@echo "... ryan_arms_plugin_r.s"
 .PHONY : help
 
 

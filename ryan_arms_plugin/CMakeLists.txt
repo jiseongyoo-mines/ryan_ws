@@ -12,8 +12,11 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
 
 # Build our plugin
-add_library(ryan_arms_plugin SHARED ryan_arms_plugin.cc)
-target_link_libraries(ryan_arms_plugin ${GAZEBO_libraries} ${roscpp_LIBRARIES})
+add_library(ryan_arms_plugin_l SHARED ryan_arms_plugin_l.cc)
+target_link_libraries(ryan_arms_plugin_l ${GAZEBO_libraries} ${roscpp_LIBRARIES})
+add_library(ryan_arms_plugin_r SHARED ryan_arms_plugin_r.cc)
+target_link_libraries(ryan_arms_plugin_r ${GAZEBO_libraries} ${roscpp_LIBRARIES})
+
 
 # Build the stand-alone test program
 add_executable(pos pos.cc)
